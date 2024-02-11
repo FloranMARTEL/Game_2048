@@ -1,10 +1,10 @@
 
+from random import randint
+
 map = [ [None for j in range(4)] for i in range(4)]
 
-map[2][0] = 2
-map[3][0] = 4
 
-####reversed
+
 def showMap(map):
     for ligne in map:
         print(ligne)
@@ -51,6 +51,7 @@ def moveCandidate(map,posLibre,pos,ReverseSense,vertical):
         posCandidate = pos
     
     return map,posLibre,posCandidate
+
 
 def fussion(map : list, direction):
     
@@ -131,12 +132,42 @@ def fussion(map : list, direction):
     return map
 
 
-
-                        
-
+def newNumberSpawne(map):
 
 
+    ##avoire une avriavle à la place
+    #compter le nombre de casse vide
+    nbNone = 0
+    longeurCoterMap = len(map)
+    for x in range(longeurCoterMap):
+        for y in range(longeurCoterMap):
+            if map[y][x] == None:
+                nbNone += 1
+    
+    #place le nouveau nombre
+    numcase = randint(0,nbNone)
+    for x in range(longeurCoterMap):
+        for y in range(longeurCoterMap):
+            if map[y][x] == None:
+                numcase -= 1
+                if numcase == 0:
+                    if randint(0,10) < 1:
+                        map[y][x] = 4
+                    else:
+                        map[y][x] = 2
+                    
+                    break
 
+        if numcase == 0:
+            break
+    
+    return map
+            
+           
+
+
+
+map = newNumberSpawne(map)
 showMap(map)
 while True:
     entre = input("choisie l'action\n")
@@ -150,5 +181,7 @@ while True:
             map = fussion(map,"Left")
         case "D":
             map = fussion(map,"Right")
+    
+    map = newNumberSpawne(map)
 
     showMap(map)
