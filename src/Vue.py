@@ -2,23 +2,47 @@ from tkinter import *
 
 from Game import Game
 from Grid import Grid
+from Input import Input
+from InputRestart import InputRestart
 
 class MainView:
 
     def __init__(self) -> None:
 
+        
+
         self.window = Tk()
 
-
-        self.game = Game()
-
-        grid = Grid(self.window)
-
-        grid.pack(expand=1)
-
-        self.window.bind("<KeyPress>", lambda e : print(e.char))
+        self.textGameOver = None
 
 
+        self.grid = Grid(self.window)
+
+        self.grid.pack(expand=1)
+
+        interaction = Input(self.grid,Game())
+        self.window.bind("<KeyPress>", interaction.OnKeyPressed)
+
+
+    def gameover(self):
+        self.window.unbind("<KeyPress>")
+        self.textGameOver = Label(self.window,text="GameOver")
+        self.textGameOver.pack(expand=1)
+
+        interaction = InputRestart(self.window)
+        self.window.bind("<Return>",interaction.restart)
+
+    def restart(self,game : Game):
+        self.window.unbind("<Return>")
+        self.textGameOver.pack_forget()
+
+        self.grid.updateGrid(game.map)
+
+
+
+        interaction = Input(self.grid,game)
+        self.window.bind("<KeyPress>", interaction.OnKeyPressed)
+        
 
         
     def show(self):

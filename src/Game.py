@@ -5,6 +5,7 @@ from random import randint
 class Game:
 
     def __init__(self) -> None:
+        self.status = "run"
         self.map = [ [None for j in range(4)] for i in range(4)]
         self.longeurCoterMap = len(self.map)
 
@@ -136,7 +137,7 @@ class Game:
                     x = lastx
         
 
-    def newNumberSpawne(self):
+    def newNumberSpawne(self) -> bool:
 
 
         ##avoire une avriavle à la place
@@ -146,7 +147,9 @@ class Game:
             for y in range(self.longeurCoterMap):
                 if self.map[y][x] == None:
                     nbNone += 1
-        
+        if nbNone == 0:
+            return False
+         
         #place le nouveau nombre
         numcase = randint(0,nbNone)
         for x in range(self.longeurCoterMap):
@@ -163,6 +166,8 @@ class Game:
 
             if numcase == 0:
                 break
+        
+        return True
         
     def doTurn(self,entre : str):
 
