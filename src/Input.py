@@ -1,14 +1,14 @@
-from tkinter import Event
+from tkinter import Event,Frame
 from Game import Game
 
 class Input:
 
-    def __init__(self,grid,game : Game) -> None:
+    def __init__(self,vue,grid: Frame,game : Game) -> None:
+        self.vue = vue
         self.grid = grid
         self.game = game
 
     def OnKeyPressed(self,e : Event):
-        print(type(e))
         key = e.char
         
         match key:
@@ -25,7 +25,8 @@ class Input:
 
         if itCan == False:
             self.game.status = "GameOver"
-            pass
+            self.vue.gameover()
+            
         # c'est la fin
         
         self.grid.updateGrid(self.game.map)

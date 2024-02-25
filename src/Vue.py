@@ -20,7 +20,7 @@ class MainView:
 
         self.grid.pack(expand=1)
 
-        interaction = Input(self.grid,Game())
+        interaction = Input(self,self.grid,Game())
         self.window.bind("<KeyPress>", interaction.OnKeyPressed)
 
 
@@ -29,7 +29,7 @@ class MainView:
         self.textGameOver = Label(self.window,text="GameOver")
         self.textGameOver.pack(expand=1)
 
-        interaction = InputRestart(self.window)
+        interaction = InputRestart(self)
         self.window.bind("<Return>",interaction.restart)
 
     def restart(self,game : Game):
@@ -40,7 +40,7 @@ class MainView:
 
 
 
-        interaction = Input(self.grid,game)
+        interaction = Input(self,self.grid,game)
         self.window.bind("<KeyPress>", interaction.OnKeyPressed)
         
 

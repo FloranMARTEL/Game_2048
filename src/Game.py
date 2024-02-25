@@ -9,7 +9,6 @@ class Game:
         self.map = [ [None for j in range(4)] for i in range(4)]
         self.longeurCoterMap = len(self.map)
 
-        self.newNumberSpawne()
         self.showMap()
 
         
