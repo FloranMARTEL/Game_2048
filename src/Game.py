@@ -1,5 +1,6 @@
 
 from random import randint
+from copy import deepcopy
 
 
 class Game:
@@ -8,23 +9,21 @@ class Game:
         self.status = "run"
         self.map = [ [None for j in range(4)] for i in range(4)]
         self.longeurCoterMap = len(self.map)
-
-        self.showMap()
-
-        
+        self.newNumberSpawne()
 
 
     def showMap(self):
         for ligne in self.map:
             print(ligne)
 
-    def moveCandidate(self,posLibre,pos,ReverseSense,vertical):
+    def moveCandidate(self,map ,posLibre,pos,ReverseSense,vertical):
+        longeurCoterMap = len(map)
 
-        caseValue = self.map[pos[1]][pos[0]]
+        caseValue = map[pos[1]][pos[0]]
         if posLibre != (None,None): ##ylibre != None and xlibre != None:##
             #deplace le numero/valeur
-            self.map[pos[1]][pos[0]] = None
-            self.map[posLibre[1]][posLibre[0]] = caseValue
+            map[pos[1]][pos[0]] = None
+            map[posLibre[1]][posLibre[0]] = caseValue
             #affecte les possition du nouveaux candidat
             posCandidate = posLibre
             if vertical:
@@ -33,11 +32,11 @@ class Game:
                 if ReverseSense:
                     sansparcoureligne = range(posCandidate[0],-1,-1)
                 else:
-                    sansparcoureligne = range(posCandidate[0]+1,self.longeurCoterMap)
+                    sansparcoureligne = range(posCandidate[0]+1,longeurCoterMap)
 
                 #on cherche la premier case vide 
                 for xx in sansparcoureligne:
-                    if self.map[pos[1]][xx] == None:
+                    if map[pos[1]][xx] == None:
                         posLibre = (xx,pos[1])
                         break
             else:
@@ -46,30 +45,34 @@ class Game:
                 if ReverseSense:
                     sansparcoureligne = range(posCandidate[1],-1,-1)
                 else:
-                    sansparcoureligne = range(posCandidate[1]+1,self.longeurCoterMap)
+                    sansparcoureligne = range(posCandidate[1]+1,longeurCoterMap)
 
                 #on cherche la premier case vide 
                 for yy in sansparcoureligne:
                     if self.map[yy][pos[0]] == None:
                         posLibre = (pos[0],yy)
                         break
+            modification = True
 
         else:
             #affecte la possition du nouveau candidate
             posCandidate = pos
+            modification = False
         
-        return posLibre,posCandidate
+        return map, posLibre,posCandidate, modification
 
 
-    def fussion(self, direction):
+    def fussion(self,map, direction):
         
-        
+        longeurCoterMap = len(map)
         ##valeur pour connêtre le sans de baleillange dans la grille
         vertical = direction == "Right" or direction == "Left"
         ReverseSense = direction == "Down" or direction == "Right"
 
+        modification = False
+
         #parcoure la carte ligne par ligne ou colonne par colonne
-        for x in range(self.longeurCoterMap):
+        for x in range(longeurCoterMap):
 
             #inisiation des valeurs avant le parcoure
             #valeur de la case Candidates à la promution
@@ -80,7 +83,7 @@ class Game:
             posLibre = (None,None)
 
             #sens du parcoure de la ligne ou colonne 
-            sensparcoure = range(self.longeurCoterMap)
+            sensparcoure = range(longeurCoterMap)
             if ReverseSense:
                 sensparcoure = reversed(sensparcoure)
                 
@@ -92,7 +95,7 @@ class Game:
                     x = y
                     y = lastx
 
-                CaseValue = self.map[y][x]
+                CaseValue = map[y][x]
 
                 
                 if CaseValue != None:
@@ -100,8 +103,8 @@ class Game:
                     if promotionCandidates == None:
                         
                         
-                        posLibre,posCandidate = self.moveCandidate(posLibre,(x,y),ReverseSense,vertical)
-
+                        map, posLibre,posCandidate,modifi = self.moveCandidate(map, posLibre,(x,y),ReverseSense,vertical)
+                        modification = modification or modifi
                         #affecte la vouleur du nouveau Candidate à la promotion/fusion
                         promotionCandidates = CaseValue
                         
@@ -110,18 +113,19 @@ class Game:
 
                         if CaseValue == promotionCandidates:
                             #fussion la case Value avec le candidat
-                            self.map[posCandidate[1]][posCandidate[0]] = CaseValue*2
-                            self.map[y][x] = None
+                            map[posCandidate[1]][posCandidate[0]] = CaseValue*2
+                            map[y][x] = None
                             promotionCandidates = None
+                            modification = True
                             
                             #undique un espace libre si il n'y en avais pas
-                            if posLibre == (None,None):##ylibre==None:
+                            if posLibre == (None,None):
                                 posLibre = (x,y)
 
                         else:
                             #la fussion n'est pas possible
-                            posLibre,posCandidate = self.moveCandidate(posLibre,(x,y),ReverseSense,vertical)
-
+                            map, posLibre,posCandidate,modifi = self.moveCandidate(map,posLibre,(x,y),ReverseSense,vertical)
+                            modification = modification or modifi
                             #affecte la vouleur du nouveau Candidate à la promotion/fusion
                             promotionCandidates = CaseValue
                             
@@ -135,22 +139,17 @@ class Game:
                     #remet la valeur de x
                     x = lastx
         
+        return map, modification
+        
 
-    def newNumberSpawne(self) -> bool:
-
+    def newNumberSpawne(self):
 
         ##avoire une avriavle à la place
-        #compter le nombre de casse vide
-        nbNone = 0
-        for x in range(self.longeurCoterMap):
-            for y in range(self.longeurCoterMap):
-                if self.map[y][x] == None:
-                    nbNone += 1
-        if nbNone == 0:
-            return False
+        nbNone = self.nbZoneLibre()
+        
          
         #place le nouveau nombre
-        numcase = randint(0,nbNone)
+        numcase = randint(1,nbNone)
         for x in range(self.longeurCoterMap):
             for y in range(self.longeurCoterMap):
                 if self.map[y][x] == None:
@@ -165,23 +164,54 @@ class Game:
 
             if numcase == 0:
                 break
-        
-        return True
-        
-    def doTurn(self,entre : str):
+            
+    def nbZoneLibre(self):
+        #compter le nombre de casse vide
+        nbNone = 0
+        for x in range(self.longeurCoterMap):
+            for y in range(self.longeurCoterMap):
+                if self.map[y][x] == None:
+                    nbNone += 1
+        return nbNone
 
-        match entre:
-            case "Z":
-                self.fussion("Top")
-            case "S":
-                self.fussion("Down")
-            case "Q":
-                self.fussion("Left")
-            case "D":
-                self.fussion("Right")
+    def getpoint(self):
+        point = 0
+        for ligne in self.map:
+            for element in ligne:
+                if element != None:
+                    point += element
         
-        self.newNumberSpawne()
-        self.showMap()
+        return point
+    
+    def checkGameOver(self):
+        nbZoneLibre = self.nbZoneLibre()
+        if nbZoneLibre == 0:
+
+            dirrection = ("Top","Down","Left","Right")
+            for d in dirrection:
+                _,modif = self.fussion(deepcopy(self.map),d)
+                if modif == True:
+                    return False
+            
+            return True
+        
+        return False
+        
+    def doTurn(self,action : str):
+        if action not in ("Top","Down","Left","Right"):
+            raise ValueError
+
+        
+        self.map,thereIsModification = self.fussion(self.map, action)
+        
+        if thereIsModification:
+            amap = deepcopy(self.map)
+            self.newNumberSpawne()
+
+    
+        return self.checkGameOver()
+        
+        
 
     
 
@@ -190,8 +220,17 @@ class Game:
 
 
 if __name__ == "__main__":
+
     g = Game()
+    g.map = [ [None for j in range(4)] for i in range(4)]
+    g.map[1][3] = 2
+    g.map[0][3] = 4
+    g.map[0][2] = 2
+    g.map[0][1] = 4
+    g.map[2][0] = 2
+    g.showMap()
     while True:
         entre = input("choisie l'action\n")
         g.doTurn(entre)
+        g.showMap()
     

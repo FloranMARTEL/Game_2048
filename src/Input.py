@@ -10,20 +10,27 @@ class Input:
 
     def OnKeyPressed(self,e : Event):
         key = e.char
+
+        if key not in ("z","s","q","d"):
+            return
         
+        dirrection = ""
         match key:
             case "z":
-                self.game.fussion("Top")
+                dirrection = "Top"
             case "s":
-                self.game.fussion("Down")
+                dirrection = "Down"
             case "q":
-                self.game.fussion("Left")
+                dirrection = "Left"
             case "d":
-                self.game.fussion("Right")
+                dirrection = "Right"
             
-        itCan = self.game.newNumberSpawne()
-
-        if itCan == False:
+        #joue le trourd
+        gameover = self.game.doTurn(dirrection)
+            
+        # c'est la fin
+        
+        if gameover:
             self.game.status = "GameOver"
             self.vue.gameover()
             

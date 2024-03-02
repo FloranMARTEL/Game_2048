@@ -4,14 +4,11 @@ from Block import Block
 
 class Grid(Frame):
 
-    def __init__(self,master) -> None:
+    def __init__(self,master,map) -> None:
         super().__init__(master,width=400,height=400)
         
 
-        for y in range(4):
-            for x in range(4):
-                carre = Block(self,None)
-                carre.grid(row=y,column=x,sticky="nesw")
+        self.updateGrid(map)
     
     def updateGrid(self,map):
         

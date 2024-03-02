@@ -9,18 +9,16 @@ class MainView:
 
     def __init__(self) -> None:
 
-        
-
         self.window = Tk()
 
         self.textGameOver = None
 
-
-        self.grid = Grid(self.window)
-
+        game = Game()
+        self.grid = Grid(self.window,game.map)
+        
         self.grid.pack(expand=1)
 
-        interaction = Input(self,self.grid,Game())
+        interaction = Input(self,self.grid,game)
         self.window.bind("<KeyPress>", interaction.OnKeyPressed)
 
 
