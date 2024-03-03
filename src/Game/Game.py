@@ -20,7 +20,7 @@ class Game:
         longeurCoterMap = len(map)
 
         caseValue = map[pos[1]][pos[0]]
-        if posLibre != (None,None): ##ylibre != None and xlibre != None:##
+        if posLibre != (None,None):
             #deplace le numero/valeur
             map[pos[1]][pos[0]] = None
             map[posLibre[1]][posLibre[0]] = caseValue

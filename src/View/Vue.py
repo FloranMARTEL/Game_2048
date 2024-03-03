@@ -1,9 +1,7 @@
 from tkinter import *
 
-from Game import Game
-from Grid import Grid
-from Input import Input
-from InputRestart import InputRestart
+from Game.Game import Game
+from View import *
 
 class MainView:
 
@@ -46,7 +44,3 @@ class MainView:
     def show(self):
         self.window.mainloop()
 
-
-if __name__ == "__main__":
-    vue = MainView()
-    vue.show()

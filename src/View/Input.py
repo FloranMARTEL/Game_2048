@@ -1,5 +1,5 @@
 from tkinter import Event,Frame
-from Game import Game
+from Game.Game import Game
 
 class Input:
 

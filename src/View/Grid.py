@@ -1,5 +1,5 @@
 from tkinter import Frame
-from Block import Block
+from View import *
 
 
 class Grid(Frame):
