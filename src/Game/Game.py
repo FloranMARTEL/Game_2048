@@ -2,8 +2,10 @@
 from random import randint
 from copy import deepcopy
 
+from Neat import NeatGame
 
-class Game:
+
+class Game(NeatGame):
 
     def __init__(self) -> None:
         self.status = "run"
@@ -211,7 +213,11 @@ class Game:
     
         return self.checkGameOver()
         
-        
+    def playAction(self, action):
+        self.doTurn(action)
+
+    def getinput(self):
+        return  [j for sub in self.map for j in sub]
 
     
 

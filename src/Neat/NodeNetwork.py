@@ -12,24 +12,26 @@ class NodeNetwork():
     ProbabilityTOValueOfConnectionRandomly = 0.1
     ProbabilityTONewNode = 0.2
 
-    def __init__(self, nodes : list[Node], connections : list[Connection],neat) -> None:
+    def __init__(self, nodes : list[Node], connections : list[Connection]):#,neat) -> None:
         self.nodes : list[Node] = nodes
         self.connections : list[Connection] = connections
-        self.neat = neat
+        #self.neat = neat
+        
+        self.score = None
 
             
 
     @staticmethod
-    def NewNodeNetwork(nbinput : int,nboutput : int,neat):
+    def NewNodeNetwork(nbinput : int,nboutput : int):#,neat):
         nodes = []
 
         for numinputnode in range(nbinput):
-            nodes.append(Node(numinputnode+1,0,numinputnode))
+            nodes.append(Node(0,numinputnode))#numinputnode+1
         
         for numoutputnode in range(nboutput):
-            nodes.append(Node(nbinput+numoutputnode+1,1,numoutputnode))
+            nodes.append(Node(1,numoutputnode))#nbinput+numoutputnode+1
 
-        return NodeNetwork(nodes,[],neat)
+        return NodeNetwork(nodes,[])#,neat)
         
     
     def copy(self):
