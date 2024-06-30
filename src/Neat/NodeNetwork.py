@@ -4,6 +4,10 @@ from random import shuffle,random,randint
 
 class NodeNetwork():
 
+    C1 = 1
+    C2 = 1
+    C3 = 1
+
     MAXVALUEMUTATION = 100
 
     ProbabilityTONewConnection = 0.5
@@ -15,9 +19,7 @@ class NodeNetwork():
     def __init__(self, nodes : list[Node], connections : list[Connection]) -> None:
         self.nodes : list[Node] = nodes
         self.connections : list[Connection] = connections
-        
-        self.score = None
-            
+                    
 
     @staticmethod
     def NewNodeNetwork(nbinput : int,nboutput : int):
@@ -30,8 +32,127 @@ class NodeNetwork():
             nodes.append(Node(1,numoutputnode)) # nodes.append(Node(nbinput+numoutputnode+1,1,numoutputnode))
 
         return NodeNetwork(nodes,[])
-        
     
+    @staticmethod
+    def Distance(Nn1, Nn2):
+        Nn1 : NodeNetwork
+        Nn2 : NodeNetwork
+
+        
+        disjoint : int = 0
+        excess : int = 0
+        value_diff : float = 0
+        similar : int = 0
+
+        connectionNn1 = sorted(Nn1.connections,key=lambda connection: connection.innovationNumber)
+        connectionNn2 = sorted(Nn2.connections,key=lambda connection: connection.innovationNumber)
+
+        index1 : int = 0
+        index2 : int = 0
+
+        while index1 < len(connectionNn1) and index2 < len(connectionNn2):
+
+            con1 : Connection = connectionNn1[index1]
+            con2 : Connection = connectionNn2[index2]
+
+            if con1.innovationNumber == con2.innovationNumber:
+                # similaire
+                similar +=1
+                #différence de valeur
+                value_diff += abs(con1.value - con2.value)
+
+                index1 += 1
+                index2 += 1
+            elif con1.innovationNumber < con2.innovationNumber:
+                #disjoint de 2
+                disjoint += 1
+
+                index1 += 1
+            else:
+                #disjoint de 1
+                disjoint += 1
+
+                index1 += 1
+
+        if index1 == 0:
+            excess = len(connectionNn2) - index2
+        else:
+            excess = len(connectionNn1) - index1
+
+        if similar == 0:
+            similar = 1
+
+        value_diff /= similar
+
+        N : int
+        if len(connectionNn1) > len(connectionNn2):
+            N = len(connectionNn1)
+        else:
+            N = len(connectionNn2)
+
+        if N < 20:
+            N=1
+
+        result = (__class__.C1 * disjoint / N) + (__class__.C2 * excess / N) +( __class__.C3 * value_diff /N)
+
+        return result
+
+
+    #Nn1 is the nodeNetwork with the best score
+    @staticmethod
+    def Crossover(Nn1, Nn2):
+        Nn1 : NodeNetwork
+        Nn2 : NodeNetwork
+
+        ## Nn1 à le meilleur score
+
+        connectionNn1 = sorted(Nn1.connections,key=lambda connection: connection.innovationNumber)
+        connectionNn2 = sorted(Nn2.connections,key=lambda connection: connection.innovationNumber)
+
+        newConnections :list[Connection]= []
+        newNodes : list[Node] = []
+
+        index1 : int = 0
+        index2 : int = 0
+        while index1 < len(connectionNn1) and index2 < len(connectionNn2):
+
+            con1 : Connection = connectionNn1[index1]
+            con2 : Connection = connectionNn2[index2]
+            if con1.innovationNumber == con2.innovationNumber:
+                
+                if random() > 0.5:
+                    newConnections.append(con1)
+                else:
+                    newConnections.append(con2)
+                
+                index1 += 1
+                index2 += 1
+
+            
+            elif con1.innovationNumber < con2.innovationNumber:
+                ##prend les inovation disjointe
+                newConnections.append(con1)
+                index1 += 1
+            else:
+                newConnections.append(con2)
+                index2 += 1
+
+        #garder les node d'entrer et de sortie
+        for n in Nn1.nodes:
+            n : Node
+            if n.positionX == 0 or n.positionX == 1:
+                newNodes.append(n)
+
+        for con in newConnections:
+            if con.nodeSource not in newNodes:
+                newNodes.append(con.nodeSource)
+            
+            if con.nodeDestiantion not in newNodes:
+                newNodes.append(con.nodeDestiantion)
+        
+        return NodeNetwork(newNodes,newConnections)
+
+
     def copy(self):
         return NodeNetwork(deepcopy(self.nodes), deepcopy(self.connections))
     
@@ -39,18 +160,24 @@ class NodeNetwork():
 
         if __class__.ProbabilityTONewConnection > random():
             self.mutationOfNewConnection()
-        
-        if __class__.ProbabilityTOEnbeledConnection > random():
-            self.mutationOfEnbeledConnection()
 
-        if __class__.ProbabilityTOValueOfConnection > random():
+
+        thereisConnection = len(self.connections) > 0
+    
+        if thereisConnection and __class__.ProbabilityTONewNode > random():
+            self.MutationOfNewNode()
+
+        if thereisConnection and __class__.ProbabilityTOValueOfConnection > random():
             if __class__.ProbabilityTOValueOfConnectionRandomly > random():
                 self.mutationOfValueOfConnectionRandomly()
             else:
                 self.mutationOfValueOfConnection()
 
-        if __class__.ProbabilityTONewNode > random():
-            self.MutationOfNewNode()
+        if thereisConnection and __class__.ProbabilityTOEnbeledConnection > random():
+            self.mutationOfEnbeledConnection()
+        
+
+        
         
 
     def mutationOfNewConnection(self):
@@ -105,7 +232,8 @@ class NodeNetwork():
 
         c.enabel = False
         self.nodes.append(newNode)
-        self.connections.append(newConnectionA,newConnectionB)
+        self.connections.append(newConnectionA)
+        self.connections.append(newConnectionB)
 
 
     def Execute(self,inputs):
@@ -149,18 +277,23 @@ class NodeNetwork():
             for i in range(len(couhe)):
                 vv = lienConnection[couhe[i].innovationNumber][0]
                 for j in range(len(lienConnection[couhe[i].innovationNumber][1])):
-                    lienConnection[j.nodeDestiantion.innovationNumber][0] += lienConnection[couhe[i].innovationNumber].value * vv
+                    lienConnection[lienConnection[couhe[i].innovationNumber][1][j].nodeDestiantion.innovationNumber][0] += lienConnection[couhe[i].innovationNumber][1][j].value * vv
 
         listoutput = {}
         for nn in couches[-1]:
             listoutput[nn.innovationNumber] = lienConnection[nn.innovationNumber][0]
+
+
 
         return listoutput
 
 
     
     def getrandomindexofconnection(self):
-        return randint(len(self.connections)-1)
+        if len(self.connections) == 0:
+            raise ValueError("il n'y a pas de connection")
+        
+        return randint(0,len(self.connections)-1)
 
 
     def GETRandomValue():

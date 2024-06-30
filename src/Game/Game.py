@@ -176,12 +176,12 @@ class Game(NeatGame):
                     nbNone += 1
         return nbNone
 
-    def getpoint(self):
+    def getscore(self) -> int:
         point = 0
         for ligne in self.map:
             for element in ligne:
                 if element != None:
-                    point += element
+                    point += element*element
         
         return point
     
@@ -207,17 +207,22 @@ class Game(NeatGame):
         self.map,thereIsModification = self.fussion(self.map, action)
         
         if thereIsModification:
-            amap = deepcopy(self.map)
+            #amap = deepcopy(self.map)
             self.newNumberSpawne()
 
     
-        return self.checkGameOver()
+        return self.checkGameOver() or not thereIsModification
         
     def playAction(self, action):
-        self.doTurn(action)
+        return self.doTurn(action)
+    
+
+    def __switchNoneToZero(self,valeur):
+        if (valeur==None) : return 0
+        else: return valeur
 
     def getinput(self):
-        return  [j for sub in self.map for j in sub]
+        return  list(map(self.__switchNoneToZero,   [j for sub in self.map for j in sub]))
 
     
 

@@ -15,6 +15,6 @@ class Node():
             return False
         
         if __value.innovationNumber != self.innovationNumber:
-            raise False
+            return False
         
         return True
