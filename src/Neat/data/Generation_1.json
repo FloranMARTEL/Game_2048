@@ -1,0 +1,23 @@
+[
+    {
+        "individualMember" : 1,
+        "score" : 2,
+        "nodeNetwork" : {
+            "nodes" : [{
+                "innovationNumber" : 1,
+                "positionX":0,
+                "positionY":0
+            }],
+            "connections" : [
+                {
+                    "innovationNumber" : 1.2,
+                    "nodeSource" : 1,
+                    "nodeDestiantion" : 2,
+                    "value" : 0.5,
+                    "enabel" : true
+                }
+            ]
+        }
+
+    }
+]
