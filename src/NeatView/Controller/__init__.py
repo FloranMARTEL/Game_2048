@@ -1,0 +1,1 @@
+from NeatView.Controller.IndividuControleur import IndividuControleur

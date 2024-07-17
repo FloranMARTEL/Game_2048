@@ -1,9 +1,9 @@
 import json
+import os
 
-
-from Node import Node
-from Connection import Connection
-from Individual import Individual
+from Neat import Node
+from Neat import Connection
+from Neat import Individual
 
 
 
@@ -13,7 +13,7 @@ class DAOJson():
     PREFIX = "Generation_"
 
     @staticmethod
-    def Read(GenerationNumber : int):
+    def Read(GenerationNumber : int) -> dict:
         file = open(__class__.DATAFile+"\\"+__class__.PREFIX+str(GenerationNumber)+".json","r")
         json_str = file.read()
         json_dict = json.loads(json_str)
@@ -33,12 +33,17 @@ class DAOJson():
 
     @staticmethod
     def Delete(GenerationNumber : int):
-        pass
+        os.remove(__class__.DATAFile+"\\"+__class__.PREFIX+str(GenerationNumber)+".json")
+        
 
     @staticmethod
     def Creat(GenerationNumber : int,Population : list[Individual]):
         
         json_dict = [__class__.__IndividualTODict(individual) for individual in Population]
+
+        json_str = json.dumps(json_dict,indent=2)
+
+        open(__class__.DATAFile+"\\"+__class__.PREFIX+str(GenerationNumber)+".json","w").write(json_str)
 
         
     
@@ -79,5 +84,3 @@ class DAOJson():
 
 
 
-if __name__ == "__main__":
-    print(DAOJson.Getdata(1))

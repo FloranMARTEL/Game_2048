@@ -5,3 +5,4 @@ from Neat.Individual import Individual
 from Neat.Species import Species
 from Neat.NeatGame import NeatGame
 from Neat.Neat import Neat
+from Neat.DAOJson import DAOJson

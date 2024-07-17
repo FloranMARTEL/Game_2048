@@ -1,5 +1,8 @@
 from tkinter import *
 
+from NeatView.Controller import *
+from NeatView import *
+
 
 class GenerationView(Frame):
 
@@ -18,6 +21,15 @@ class GenerationView(Frame):
 
 
         self.center = Frame(self)
+        population : list[individuView] = IndividuControleur.getindividuView(1)
+
+        for indi in population:
+            indi.
+
+
+
+
+        
 
         
         top.grid(row=1, column=0)
