@@ -1,1 +1,2 @@
 from NeatView.Controller.IndividuControleur import IndividuControleur
+from NeatView.Controller.NavigationControleur import NavigationControleur

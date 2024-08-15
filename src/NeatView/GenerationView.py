@@ -10,28 +10,63 @@ class GenerationView(Frame):
     def __init__(self,master):
         super().__init__(master)
 
+        #controleur
+        self.navigationControleur = NavigationControleur(self)
+
         #top
         top = Frame(self)
 
         self.leftarrow = Button(top,text="<")
-        self.textGenerationNumber = Label(top,text="Generation X")
+        self.textGenerationNumber = Label(top,text="Generation 1")
         self.rightarrow = Button(top,text=">")
 
-        self.leftarrow.grid(row=0,column=0)
-        self.textGenerationNumber.grid(row=0,column=1)
-        self.rightarrow.grid(row=0,column=2)
+        self.leftarrow.pack(side="left")
+        self.textGenerationNumber.pack(side="left")
+        self.rightarrow.pack(side="left")
 
         #centre
         self.center = Frame(self)
-        population : list[individuView] = IndividuControleur.getindividuView(self.center,1)
 
-        nbIndividuLigne = ceil(sqrt(len(population)))
+        self.navigationControleur.goto(1)
+
+        top.pack()
+        self.center.pack(side="left")
+
+        self.fixbutton(1,True,False)
+        
+
+    
+    def updateView(self,generationNumber,haveNext,havePrevious) -> None:
+
+        self.textGenerationNumber.config(text="Generation "+str(generationNumber))
+
+        for key in self.center.children:
+            self.center.children[key].grid_remove()
+
+        population : list[individuView] = IndividuControleur.getindividuView(self.center,generationNumber)
+
+        nbIndividuLigne = 20#ceil(sqrt(len(population)))
         for index,indi in enumerate(population):
             indi.grid(row=index//nbIndividuLigne,column=index%nbIndividuLigne,padx=2,pady=2)
 
-       
-        top.grid(row=0, column=0)
-        self.center.grid(row=1, column=0)
+        
+        self.fixbutton(generationNumber,haveNext,havePrevious)
+        
+
+    def fixbutton(self,generationNumber,haveNext,havePrevious):
+        # désacrivation Bouton
+        if haveNext:
+            self.rightarrow.config(state=NORMAL)
+            self.rightarrow.bind("<Button-1>",lambda event: self.navigationControleur.next(generationNumber,event))
+        else:
+            self.rightarrow.config(state=DISABLED)
+
+
+        if havePrevious:
+            self.leftarrow.config(state=NORMAL)
+            self.leftarrow.bind("<Button-1>",lambda event: self.navigationControleur.previous(generationNumber,event))
+        else:
+            self.leftarrow.config(state=DISABLED)
 
 
         
