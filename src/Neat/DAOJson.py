@@ -23,14 +23,6 @@ class DAOJson():
         json_dict = __class__.Read(generationNumber)
         return json_dict[individualNumber]
 
-# @staticmethod
-# def Update(generationNumber : int):
-#     pass
-
-# @staticmethod
-# def UpdateIndividu(generationNumber : int,individualNumber : int):
-#     pass
-
     @staticmethod
     def Delete(generationNumber : int):
         os.remove(__class__.DATAFile+"\\"+__class__.PREFIX+str(generationNumber)+".json")
