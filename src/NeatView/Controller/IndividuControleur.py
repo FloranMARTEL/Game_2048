@@ -10,9 +10,9 @@ class IndividuControleur():
 
         population = DAOJson.Read(generation)
 
-        populationView = []*len(population)
+        populationView = [None]*len(population)
         for index, indi in enumerate(population):
             
-            population[index] = individuView(master,indi["individualMember"])
+            populationView[index] = individuView(master,indi["individualMember"])
 
         return populationView
