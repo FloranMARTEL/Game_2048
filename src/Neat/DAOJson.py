@@ -13,37 +13,37 @@ class DAOJson():
     PREFIX = "Generation_"
 
     @staticmethod
-    def Read(GenerationNumber : int) -> dict:
-        file = open(__class__.DATAFile+"\\"+__class__.PREFIX+str(GenerationNumber)+".json","r")
+    def Read(generationNumber : int) -> dict:
+        file = open(__class__.DATAFile+"\\"+__class__.PREFIX+str(generationNumber)+".json","r")
         json_str = file.read()
         json_dict = json.loads(json_str)
         return json_dict
 
-    def ReadIndividu(GenerationNumber : int,individualNumber : int):
-        json_dict = __class__.Read(GenerationNumber)
+    def ReadIndividu(generationNumber : int,individualNumber : int):
+        json_dict = __class__.Read(generationNumber)
         return json_dict[individualNumber]
 
 # @staticmethod
-# def Update(GenerationNumber : int):
+# def Update(generationNumber : int):
 #     pass
 
 # @staticmethod
-# def UpdateIndividu(GenerationNumber : int,individualNumber : int):
+# def UpdateIndividu(generationNumber : int,individualNumber : int):
 #     pass
 
     @staticmethod
-    def Delete(GenerationNumber : int):
-        os.remove(__class__.DATAFile+"\\"+__class__.PREFIX+str(GenerationNumber)+".json")
+    def Delete(generationNumber : int):
+        os.remove(__class__.DATAFile+"\\"+__class__.PREFIX+str(generationNumber)+".json")
         
 
     @staticmethod
-    def Creat(GenerationNumber : int,Population : list[Individual]):
+    def Creat(generationNumber : int,Population : list[Individual]):
         
         json_dict = [__class__.__IndividualTODict(individual) for individual in Population]
 
         json_str = json.dumps(json_dict,indent=2)
 
-        open(__class__.DATAFile+"\\"+__class__.PREFIX+str(GenerationNumber)+".json","w").write(json_str)
+        open(__class__.DATAFile+"\\"+__class__.PREFIX+str(generationNumber)+".json","w").write(json_str)
 
         
     
@@ -80,6 +80,10 @@ class DAOJson():
                 "value" : connection.value,
                 "enabel" : connection.enabel,
                 }
+    
+    @staticmethod
+    def GenerationExist(generationNumber):
+        return os.path.isfile(__class__.DATAFile+"\\"+__class__.PREFIX+str(generationNumber)+".json")
 
 
 
