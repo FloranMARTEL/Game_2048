@@ -1,14 +1,18 @@
 from tkinter import *
 from NeatView import *
 
-class individuView(Button):#(Frame):
+from typing import TYPE_CHECKING
 
-    def __init__(self,master,number : int):
 
-        # super().__init__(master)
+class IndividuView(Button):#(Frame):
 
-        # textNumber : Label= Label(self,text=str(number))
-
-        # textNumber.pack()
+    def __init__(self,master,generation: int,number : int):
 
         super().__init__(master,text=str(number))
+
+        from NeatView.Controller import IndividuControleur
+
+
+        self.bind("<Button-1>", lambda event: IndividuControleur.LunchIndivuduWindow(generation,number))
+
+

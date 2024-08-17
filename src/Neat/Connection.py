@@ -38,5 +38,4 @@ class Connection():
             return False
 
         return True
-    
-    copyright
+

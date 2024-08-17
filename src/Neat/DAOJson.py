@@ -21,7 +21,11 @@ class DAOJson():
 
     def ReadIndividu(generationNumber : int,individualNumber : int):
         json_dict = __class__.Read(generationNumber)
-        return json_dict[individualNumber]
+        for element in json_dict:
+            if element["individualMember"] == individualNumber:
+                return element
+        
+        raise ValueError("l'individu n'existe pas")
 
     @staticmethod
     def Delete(generationNumber : int):
@@ -67,8 +71,8 @@ class DAOJson():
 
         return {
                 "innovationNumber" : connection.innovationNumber,
-                "nodeSource" : connection.nodeSource,
-                "nodeDestiantion" : connection.nodeDestiantion,
+                "nodeSource" : connection.nodeSource.innovationNumber,
+                "nodeDestiantion" : connection.nodeDestiantion.innovationNumber,
                 "value" : connection.value,
                 "enabel" : connection.enabel,
                 }

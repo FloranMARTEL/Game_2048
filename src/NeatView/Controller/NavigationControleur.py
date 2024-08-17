@@ -1,16 +1,20 @@
-from NeatView import GenerationView
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from NeatView import GenerationView
+
+    
 from Neat import DAOJson
 
 from NeatView.Controller import *
-from tkinter import *
-from tkinter import messagebox
+from tkinter import Entry,messagebox
 
 class NavigationControleur:
 
-    GENERATIONView : GenerationView = None
+    GENERATIONView : "GenerationView" = None
     
     @staticmethod
-    def Inisialisation(generationView : GenerationView) -> None:
+    def Inisialisation(generationView : "GenerationView"):
         __class__.GENERATIONView = generationView
 
 

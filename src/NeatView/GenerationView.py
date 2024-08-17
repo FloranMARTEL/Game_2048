@@ -1,7 +1,12 @@
+from typing import TYPE_CHECKING
+
 from tkinter import *
 from math import sqrt,ceil
 
-from NeatView.Controller import *
+# from NeatView.Controller import *
+from NeatView.Controller.IndividuControleur import IndividuControleur
+from NeatView.Controller.NavigationControleur import NavigationControleur
+#if TYPE_CHECKING: from NeatView.Controller.IndividuControleur import IndividuControleur
 from NeatView import *
 
 
@@ -26,7 +31,7 @@ class GenerationView(Frame):
         self.center = Frame(self)
         ## inisialisation Controleur
         NavigationControleur.Inisialisation(self)
-        NavigationControleur.Goto(1)
+        NavigationControleur.Goto(0)
 
         top.pack()
         self.center.pack(side="left")
@@ -42,7 +47,7 @@ class GenerationView(Frame):
         for key in self.center.children:
             self.center.children[key].grid_remove()
 
-        population : list[individuView] = IndividuControleur.getindividuView(self.center,generationNumber)
+        population : list[IndividuView] = IndividuControleur.GetindividuView(self.center,generationNumber)
 
         nbIndividuLigne = 20#ceil(sqrt(len(population)))
         for index,indi in enumerate(population):
