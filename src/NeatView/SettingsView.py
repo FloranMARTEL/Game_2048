@@ -1,4 +1,6 @@
 from tkinter import *
+from NeatView.Controller import *
+
 
 class SettingsView(Frame):
 
@@ -21,5 +23,9 @@ class SettingsView(Frame):
         self.buttonGoTo.grid(row=0,column=2)
 
 
-        self.buttonNewGeneration.pack(side="top")#.grid(row=0,column=0,sticky="ew")
-        navigation.pack(side="top")#.grid(row=1,column=0)
+        self.buttonNewGeneration.pack(side="top")
+        navigation.pack(side="top")
+
+        self.buttonGoTo.bind("<Button-1>",lambda event: NavigationControleur.TryGoTo(self.entryGoTo,event))
+
+

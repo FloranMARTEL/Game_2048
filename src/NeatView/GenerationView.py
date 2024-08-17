@@ -10,8 +10,6 @@ class GenerationView(Frame):
     def __init__(self,master):
         super().__init__(master)
 
-        #controleur
-        self.navigationControleur = NavigationControleur(self)
 
         #top
         top = Frame(self)
@@ -26,8 +24,9 @@ class GenerationView(Frame):
 
         #centre
         self.center = Frame(self)
-
-        self.navigationControleur.goto(1)
+        ## inisialisation Controleur
+        NavigationControleur.Inisialisation(self)
+        NavigationControleur.Goto(1)
 
         top.pack()
         self.center.pack(side="left")
@@ -57,14 +56,14 @@ class GenerationView(Frame):
         # désacrivation Bouton
         if haveNext:
             self.rightarrow.config(state=NORMAL)
-            self.rightarrow.bind("<Button-1>",lambda event: self.navigationControleur.next(generationNumber,event))
+            self.rightarrow.bind("<Button-1>",lambda event: NavigationControleur.Next(generationNumber,event))
         else:
             self.rightarrow.config(state=DISABLED)
 
 
         if havePrevious:
             self.leftarrow.config(state=NORMAL)
-            self.leftarrow.bind("<Button-1>",lambda event: self.navigationControleur.previous(generationNumber,event))
+            self.leftarrow.bind("<Button-1>",lambda event: NavigationControleur.Previous(generationNumber,event))
         else:
             self.leftarrow.config(state=DISABLED)
 

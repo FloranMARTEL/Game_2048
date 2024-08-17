@@ -8,13 +8,14 @@ class MainView(Tk):
         self.geometry("650x400")
         self.title("ViewNeat")
 
+        #left
+        self.generationView :GenerationView = GenerationView(self)
 
-        left = GenerationView(self)
-
-        right = SettingsView(self)
+        #right
+        self.settingsView : SettingsView = SettingsView(self)
 
         self.grid_columnconfigure(0, weight=1)
 
-        left.grid(row=0,column=0,sticky="nsew")
-        right.grid(row=0,column=1,sticky="ns")
+        self.generationView.grid(row=0,column=0,sticky="nsew")
+        self.settingsView.grid(row=0,column=1,sticky="ns")
         
