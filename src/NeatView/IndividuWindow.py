@@ -1,10 +1,12 @@
 from tkinter import *
 
+from View import Grid
+
 class IndividuWindow(Toplevel):
 
-    def __init__(self,number : int,rank : int,score : int,race : int,nodes :dict,connections):
+    def __init__(self,number : int,rank : int,score : int,race : int,nodes :dict,connections : list,carte : list):
         super().__init__()
-        self.geometry("800x450")
+        #self.geometry("800x450")
         self.title("individu : "+str(number))
 
         #var
@@ -47,6 +49,56 @@ class IndividuWindow(Toplevel):
         self.updateCanva(nodes,connections,longeur,hauteur)
 
         self.canvaNodeNetwork.pack(side="top",fill="x")
+
+
+
+        #midel 2
+
+        gamebar = Frame(self,borderwidth=1, relief="solid")
+
+        buttonStart = Button(gamebar , text="Start") ##not make
+        self.buttonNext = Button(gamebar , text=">")
+
+        padxtext = 2
+        buttonStart.pack(side="left",padx=padxtext)        
+        self.buttonNext.pack(side="left",padx=padxtext)
+        
+        gamebar.pack(side="top",fill="x")
+
+
+        # end
+
+        gameFrame = Frame(self)
+
+        self.gameview = Grid(gameFrame,carte)
+
+        infoGame = Frame(gameFrame)
+        
+        self.labelAction = Label(infoGame,text="Action : ")
+        self.labelScore = Label(infoGame,text="Score : ")
+        self.labelGameOver = Label(infoGame,text="GameOver : ")
+
+        self.labelAction.pack(side="top")
+        self.labelScore.pack(side="top")
+        self.labelGameOver.pack(side="top")
+
+        infoGame.pack(side="right",fill="both")
+        self.gameview.pack(side="left")
+        
+
+        gameFrame.pack(side="top")
+
+    
+    def updateGameStatus(self,action : str,score : int, gameOver):
+
+        self.labelAction.config(text="Action : "+action)
+        self.labelScore.config(text="Score : "+str(score))
+        self.labelGameOver.config(text="GameOver : "+str(gameOver))
+
+
+
+
+
 
 
     def updateCanva(self,nodes,connections,longeur,hauteur):
