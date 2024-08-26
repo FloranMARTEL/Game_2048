@@ -21,7 +21,33 @@ class IndividuWindow(Toplevel):
         ##view
 
         #top
+        self.generateTopView()
 
+        #midel
+        longeur = 800
+        hauteur = 400
+
+        self.canvaNodeNetwork = Canvas(self, width=longeur, height=hauteur, bg='ivory')
+        self.updateCanva(nodes,connections,longeur,hauteur)
+        self.canvaNodeNetwork.pack(side="top",fill="x")
+
+        #midel 2
+        self.generateMidel2View()
+
+        # end
+        self.generateEndView(carte)
+
+        
+    
+    def updateGameStatus(self,action : str,score : int, gameOver):
+
+        self.labelAction.config(text="Action : "+action)
+        self.labelScore.config(text="Score : "+str(score))
+        self.labelGameOver.config(text="GameOver : "+str(gameOver))
+
+
+
+    def generateTopView(self):
         infoBar = Frame(self,borderwidth=1, relief="solid")
 
         textIdentifiant = Label(infoBar , text="individu : "+str(self.number))
@@ -37,23 +63,7 @@ class IndividuWindow(Toplevel):
         
         infoBar.pack(side="top",fill="x")
 
-        #midel
-
-        #var
-        longeur = 800
-        hauteur = 400
-
-
-        self.canvaNodeNetwork = Canvas(self, width=longeur, height=hauteur, bg='ivory')
-
-        self.updateCanva(nodes,connections,longeur,hauteur)
-
-        self.canvaNodeNetwork.pack(side="top",fill="x")
-
-
-
-        #midel 2
-
+    def generateMidel2View(self):
         gamebar = Frame(self,borderwidth=1, relief="solid")
 
         buttonStart = Button(gamebar , text="Start") ##not make
@@ -64,10 +74,8 @@ class IndividuWindow(Toplevel):
         self.buttonNext.pack(side="left",padx=padxtext)
         
         gamebar.pack(side="top",fill="x")
-
-
-        # end
-
+    
+    def generateEndView(self,carte):
         gameFrame = Frame(self)
 
         self.gameview = Grid(gameFrame,carte)
@@ -87,16 +95,6 @@ class IndividuWindow(Toplevel):
         
 
         gameFrame.pack(side="top")
-
-    
-    def updateGameStatus(self,action : str,score : int, gameOver):
-
-        self.labelAction.config(text="Action : "+action)
-        self.labelScore.config(text="Score : "+str(score))
-        self.labelGameOver.config(text="GameOver : "+str(gameOver))
-
-
-
 
 
 
