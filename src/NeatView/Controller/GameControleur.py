@@ -10,7 +10,7 @@ class GameControleur():
         self.game : Game = game
         self.individuWindow : IndividuWindow = individuWindow
 
-    def onClick(self,event):
+    def nextAction(self,event):
 
         data = self.game.getinput()
         result = self.individu.Execute(data)
@@ -34,7 +34,16 @@ class GameControleur():
         gameOver = self.game.playAction(direction)
         self.individuWindow.gameview.updateGrid(self.game.map)
         self.individuWindow.updateGameStatus(direction,self.game.getscore(),gameOver)
-        
+
+    def restart(self,event):
+
+        self.game = Game()
+
+        self.individuWindow.gameview.updateGrid(self.game.map)
+        self.individuWindow.updateGameStatus("?",0,False)
+
+
+
         
 
         

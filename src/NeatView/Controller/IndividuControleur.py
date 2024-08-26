@@ -49,7 +49,8 @@ class IndividuControleur():
 
         #bind button
         gameControleur = GameControleur(individu,modelG,indiWin)
-        indiWin.buttonNext.bind("<Button-1>", gameControleur.onClick)
+        indiWin.buttonNext.bind("<Button-1>", gameControleur.nextAction)
+        indiWin.buttonStart.bind("<Button-1>", gameControleur.restart)
 
 
         indiWin.mainloop()

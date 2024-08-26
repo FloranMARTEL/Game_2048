@@ -66,11 +66,11 @@ class IndividuWindow(Toplevel):
     def generateMidel2View(self):
         gamebar = Frame(self,borderwidth=1, relief="solid")
 
-        buttonStart = Button(gamebar , text="Start") ##not make
+        self.buttonStart = Button(gamebar , text="Start") ##not make
         self.buttonNext = Button(gamebar , text=">")
 
         padxtext = 2
-        buttonStart.pack(side="left",padx=padxtext)        
+        self.buttonStart.pack(side="left",padx=padxtext)        
         self.buttonNext.pack(side="left",padx=padxtext)
         
         gamebar.pack(side="top",fill="x")
@@ -82,9 +82,9 @@ class IndividuWindow(Toplevel):
 
         infoGame = Frame(gameFrame)
         
-        self.labelAction = Label(infoGame,text="Action : ")
-        self.labelScore = Label(infoGame,text="Score : ")
-        self.labelGameOver = Label(infoGame,text="GameOver : ")
+        self.labelAction = Label(infoGame,text="Action : ?")
+        self.labelScore = Label(infoGame,text="Score : 0")
+        self.labelGameOver = Label(infoGame,text="GameOver : false")
 
         self.labelAction.pack(side="top")
         self.labelScore.pack(side="top")
