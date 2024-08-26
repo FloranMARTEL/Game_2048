@@ -1,13 +1,29 @@
-from Neat import DAOJson
+from Neat import DAOJson,Individual
 from NeatView import *
 from NeatView import IndividuView
+from Game import Game
+
+from NeatView.Controller import *
 
 class IndividuControleur():
 
     @staticmethod
     def LunchIndivuduWindow(generation : int, numberIndividu : int):
-        
+
+
+
+        #Model Game
+        modelG = Game()
+        map = modelG.map        
+
+        #data
+
         individuData = DAOJson.ReadIndividu(generation,numberIndividu)
+
+
+        individu = DAOJson.DictToIndividu(individuData)
+
+
         
         number : int = individuData["individualMember"]
         rank : int = 0
@@ -29,7 +45,13 @@ class IndividuControleur():
                         "enabel" : node["enabel"]
                         } for node in individuData["nodeNetwork"]["connections"] ]
 
-        indiWin = IndividuWindow(number,rank,score,race,nodes,connections)
+        indiWin = IndividuWindow(number,rank,score,race,nodes,connections,map)
+
+        #bind button
+        gameControleur = GameControleur(individu,modelG,indiWin)
+        indiWin.buttonNext.bind("<Button-1>", gameControleur.onClick)
+
+
         indiWin.mainloop()
         #indiWin.focus_force()
 

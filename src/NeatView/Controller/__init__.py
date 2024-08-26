@@ -1,2 +1,3 @@
 from NeatView.Controller.NavigationControleur import NavigationControleur
+from NeatView.Controller.GameControleur import GameControleur
 from NeatView.Controller.IndividuControleur import IndividuControleur
