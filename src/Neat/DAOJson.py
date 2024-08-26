@@ -1,9 +1,7 @@
 import json
 import os
 
-from Neat import Node
-from Neat import Connection
-from Neat import Individual
+from Neat import Node,Connection,Individual,NodeNetwork
 
 
 
@@ -19,6 +17,7 @@ class DAOJson():
         json_dict = json.loads(json_str)
         return json_dict
 
+    @staticmethod
     def ReadIndividu(generationNumber : int,individualNumber : int):
         json_dict = __class__.Read(generationNumber)
         for element in json_dict:
@@ -26,6 +25,56 @@ class DAOJson():
                 return element
         
         raise ValueError("l'individu n'existe pas")
+    
+    @staticmethod
+    def DictToIndividu(data : dict):
+
+        #node network
+        listNodes = [ __class__.__DictToNode(datanode) for datanode in data["nodeNetwork"]["nodes"]]
+        lisConnections = [ __class__.__DictToConnection(dataConnection,listNodes) for dataConnection in data["nodeNetwork"]["connections"]]
+
+        nodeNetwork = NodeNetwork(listNodes,lisConnections)
+
+
+        individu = Individual(nodeNetwork,data["individualMember"],data["score"])
+
+        return individu
+        
+
+
+
+
+    def __DictToNode(data: dict) -> Node:
+
+        node = Node(data["positionX"],data["positionY"],data["innovationNumber"])
+
+        return node
+    
+    def __DictToConnection(data: dict,nodes : list[Node]) -> Node:
+
+        nodesource = None
+        nodedestination = None
+
+        for node in nodes:
+            if node.innovationNumber == data["nodeSource"]:
+                nodesource = node
+            if node.innovationNumber == data["nodeDestiantion"]:
+                nodedestination = node
+            
+            if nodesource != None and nodedestination != None:
+                break
+        
+        if nodesource == None or nodedestination == None:
+            raise ValueError()
+        
+        connection = Connection(nodesource,nodedestination,data["value"],data["enabel"],data["innovationNumber"])
+
+        return connection
+
+
+
+        
+        
 
     @staticmethod
     def Delete(generationNumber : int):

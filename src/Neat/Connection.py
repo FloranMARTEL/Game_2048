@@ -4,18 +4,21 @@ class Connection():
 
     CONNECTION : dict = {}
 
-    def __init__(self,nodeSource : Node, nodeDestiantion: Node,value : float,enabel : bool = True) -> None:
+    def __init__(self,nodeSource : Node, nodeDestiantion: Node,value : float,enabel : bool = True, innovationNumber: int|None = None) -> None:
         self.nodeSource : Node = nodeSource
         self.nodeDestiantion : Node = nodeDestiantion
         self.value : float = value
 
         self.enabel : bool = enabel
 
-        if self.HashCode() in __class__.CONNECTION.keys():
-            numinovation = __class__.CONNECTION[self.HashCode()].innovationNumber
+        if innovationNumber == None:
+            if self.HashCode() in __class__.CONNECTION.keys():
+                numinovation = __class__.CONNECTION[self.HashCode()].innovationNumber
+            else:
+                numinovation = len(__class__.CONNECTION)+1
+                __class__.CONNECTION[self.HashCode()] = self
         else:
-            numinovation = len(__class__.CONNECTION)+1
-            __class__.CONNECTION[self.HashCode()] = self
+            numinovation = innovationNumber
 
             
         self.innovationNumber : int = numinovation

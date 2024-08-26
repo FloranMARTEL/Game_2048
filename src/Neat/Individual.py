@@ -4,14 +4,21 @@ class Individual:
 
     CptIndividu = 0 
 
-    def __init__(self,nodeNetwork : NodeNetwork) -> None:
+    def __init__(self,nodeNetwork : NodeNetwork,numindividu : int|None = None, score : int|None = None) -> None:
 
-        self.numindividu = __class__.CptIndividu
-        __class__.CptIndividu += 1
+        if numindividu == None:
+            self.numindividu = __class__.CptIndividu
+            __class__.CptIndividu += 1
+
+            self.score = None
+        else:
+            self.numindividu = numindividu
+            self.score = score
 
         self.nodeNetwork : NodeNetwork = nodeNetwork
-        self.score = None
         self.vivant = True
+
+        
 
     def mutation(self):
         self.nodeNetwork.mutation()

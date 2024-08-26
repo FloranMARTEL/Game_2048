@@ -1,11 +1,16 @@
 class Node():
 
-    NODE : int = 0
+    NODE : int = 1
 
-    def __init__(self,positionX : float ,positionY: float ) -> None:
+    def __init__(self,positionX : float ,positionY: float, innovationNumber: int|None = None ) -> None:
         
-        __class__.NODE += 1
-        self.innovationNumber : int = __class__.NODE
+        if innovationNumber == None:
+        
+            self.innovationNumber : int = __class__.NODE
+            __class__.NODE += 1
+        else :
+            self.innovationNumber = innovationNumber
+
         self.positionX : float = positionX
         self.positionY : float = positionY
 
