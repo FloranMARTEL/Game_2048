@@ -41,11 +41,21 @@ class IndividuWindow(Toplevel):
         longeur = 800
         hauteur = 400
 
+
+        self.canvaNodeNetwork = Canvas(self, width=longeur, height=hauteur, bg='ivory')
+
+        self.updateCanva(nodes,connections,longeur,hauteur)
+
+        self.canvaNodeNetwork.pack(side="top",fill="x")
+
+
+    def updateCanva(self,nodes,connections,longeur,hauteur):
+
         marging = 30
 
         tailleCercle = 20
         moitierCercle = tailleCercle/2
-
+        
 
         #Dimenstion / posstion
         # if len(node) > 0
@@ -80,7 +90,6 @@ class IndividuWindow(Toplevel):
 
         
         
-        canvaNodeNetwork = Canvas(self, width=longeur, height=hauteur, bg='ivory')
 
         #color Connections
         if len(connections) != 0:
@@ -112,11 +121,10 @@ class IndividuWindow(Toplevel):
                 if connection["enabel"]:
                     redcolor = int((connection["value"]-minValueConnection) * coefCouler)
                     bluecolor = 255 - redcolor
-                    print(format(redcolor, '02x'))
 
                     color = f"#{format(redcolor, '02x')}00{format(bluecolor, '02x')}"
 
-                canvaNodeNetwork.create_line(sx,sy,dx,dy, width=2, fill=color)
+                self.canvaNodeNetwork.create_line(sx,sy,dx,dy, width=2, fill=color)
 
             
         for key, node in nodes.items():
@@ -126,14 +134,9 @@ class IndividuWindow(Toplevel):
             xText = x+moitierCercle
             yText = y+moitierCercle
 
-            canvaNodeNetwork.create_oval(x,y,x+tailleCercle,y+tailleCercle,width=1,outline="#000000",fill="white")
-            canvaNodeNetwork.create_text(xText,yText,text=str(key))
-
-
+            self.canvaNodeNetwork.create_oval(x,y,x+tailleCercle,y+tailleCercle,width=1,outline="#000000",fill="white")
+            self.canvaNodeNetwork.create_text(xText,yText,text=str(key))
 
         
-        
-
-        canvaNodeNetwork.pack(side="top",fill="x")
 
 
