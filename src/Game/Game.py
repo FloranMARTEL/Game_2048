@@ -1,5 +1,5 @@
 
-from random import randint
+from random import randint,seed
 from copy import deepcopy
 
 from Neat import NeatGame
@@ -11,6 +11,7 @@ class Game(NeatGame):
         self.status = "run"
         self.map = [ [None for j in range(4)] for i in range(4)]
         self.longeurCoterMap = len(self.map)
+        seed(10)
         self.newNumberSpawne()
 
 
