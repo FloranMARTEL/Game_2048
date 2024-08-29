@@ -1,3 +1,5 @@
+from NeatView.Controller.NodeNetworkControleur import NodeNetworkControleur
 from NeatView.Controller.NavigationControleur import NavigationControleur
 from NeatView.Controller.GameControleur import GameControleur
 from NeatView.Controller.IndividuControleur import IndividuControleur
+

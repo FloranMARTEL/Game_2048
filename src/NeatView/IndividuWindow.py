@@ -2,6 +2,10 @@ from tkinter import *
 
 from View import Grid
 
+from NeatView import ConnectionInfoView
+
+from NeatView.Controller.NodeNetworkControleur import NodeNetworkControleur
+
 class IndividuWindow(Toplevel):
 
     def __init__(self,number : int,rank : int,score : int,race : int,nodes :dict,connections : list,carte : list):
@@ -37,14 +41,12 @@ class IndividuWindow(Toplevel):
         # end
         self.generateEndView(carte)
 
-        
     
     def updateGameStatus(self,action : str,score : int, gameOver):
 
         self.labelAction.config(text="Action : "+action)
         self.labelScore.config(text="Score : "+str(score))
         self.labelGameOver.config(text="GameOver : "+str(gameOver))
-
 
 
     def generateTopView(self):
@@ -63,6 +65,7 @@ class IndividuWindow(Toplevel):
         
         infoBar.pack(side="top",fill="x")
 
+
     def generateMidel2View(self):
         gamebar = Frame(self,borderwidth=1, relief="solid")
 
@@ -74,11 +77,12 @@ class IndividuWindow(Toplevel):
         self.buttonNext.pack(side="left",padx=padxtext)
         
         gamebar.pack(side="top",fill="x")
+
     
     def generateEndView(self,carte):
         gameFrame = Frame(self)
 
-        self.gameview = Grid(gameFrame,carte)
+        self.gameview = Grid(gameFrame,carte,200,200)
 
         infoGame = Frame(gameFrame)
         
@@ -174,7 +178,14 @@ class IndividuWindow(Toplevel):
 
                     color = f"#{format(redcolor, '02x')}00{format(bluecolor, '02x')}"
 
-                self.canvaNodeNetwork.create_line(sx,sy,dx,dy, width=2, fill=color)
+                idconnection = self.canvaNodeNetwork.create_line(sx,sy,dx,dy, width=2, fill=color)
+
+                #bind connetion
+                connectionInfo = ConnectionInfoView(self,connection["num"],connection["value"],connection["enabel"])
+
+                nodeNetworkControleur = NodeNetworkControleur(connectionInfo)
+                self.canvaNodeNetwork.tag_bind(idconnection,'<Enter>', nodeNetworkControleur.onEnter)
+
 
             
         for key, node in nodes.items():

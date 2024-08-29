@@ -1,16 +1,16 @@
 from Neat import DAOJson,Individual
-from NeatView import *
-from NeatView import IndividuView
 from Game import Game
 
 from NeatView.Controller import *
+#from NeatView.IndividuWindow import IndividuWindow
+
 
 class IndividuControleur():
 
     @staticmethod
     def LunchIndivuduWindow(generation : int, numberIndividu : int):
 
-
+        from NeatView.IndividuWindow import IndividuWindow
 
         #Model Game
         modelG = Game()
@@ -59,6 +59,8 @@ class IndividuControleur():
 
     @staticmethod
     def GetindividuView(master, generation : int):
+        from NeatView import IndividuView
+
 
         population = DAOJson.Read(generation)
 
