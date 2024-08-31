@@ -4,13 +4,15 @@ import random
 
 class Species:
 
-    CoefCorespondance = 4
+    CoefCorespondance = 15
 
     def __init__(self,individuRéférent : Individual) -> None:
         self.nodeNetworkRéférent = individuRéférent.nodeNetwork.copy()
         self.individus = [individuRéférent]
     
     def isMemberofSpecies(self,individu: Individual) -> bool:
+        # if NodeNetwork.Distance(self.nodeNetworkRéférent,individu.nodeNetwork) > __class__.CoefCorespondance:
+        #     print(NodeNetwork.Distance(self.nodeNetworkRéférent,individu.nodeNetwork))
         return NodeNetwork.Distance(self.nodeNetworkRéférent,individu.nodeNetwork) < __class__.CoefCorespondance
 
 
@@ -67,7 +69,7 @@ class Species:
         for i in self.individus:
             text += f" individu [{i.numindividu}];"
         
-        return f"Species { '{' }{text} { '}' }"
+        return f"Species { str(len(self.individus))+'{' }{text} { '}' }"
     
     def __repr__(self) -> str:
         return self.__str__()

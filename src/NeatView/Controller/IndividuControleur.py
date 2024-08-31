@@ -67,6 +67,6 @@ class IndividuControleur():
         populationView = [None]*len(population)
         for index, indi in enumerate(population):
             
-            populationView[index] = IndividuView(master,generation,indi["individualMember"])
+            populationView[index] = IndividuView(master,generation,indi["individualMember"],indi["score"])
 
         return populationView

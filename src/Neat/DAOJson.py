@@ -83,13 +83,16 @@ class DAOJson():
 
     @staticmethod
     def Creat(generationNumber : int,Population : list[Individual]):
-        
+        #print("1")
         json_dict = [__class__.__IndividualTODict(individual) for individual in Population]
+        #print("2")
 
-        json_str = json.dumps(json_dict,indent=2)
+        json_str = json.dumps(json_dict)#,indent=2
+        #print("3")
 
         open(__class__.DATAFile+"\\"+__class__.PREFIX+str(generationNumber)+".json","w").write(json_str)
 
+        #print("4")
         
     
     def __IndividualTODict(individual : Individual) -> dict:

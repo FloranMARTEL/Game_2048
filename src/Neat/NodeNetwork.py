@@ -6,7 +6,7 @@ class NodeNetwork():
 
     C1 = 1
     C2 = 1
-    C3 = 1
+    C3 = 0.01
 
     MAXVALUEMUTATION = 100
 
@@ -93,6 +93,7 @@ class NodeNetwork():
         if N < 20:
             N=1
 
+        # print(__class__.C1 * disjoint / N,";",__class__.C2 * excess / N,";",__class__.C3 * value_diff /N)
         result = (__class__.C1 * disjoint / N) + (__class__.C2 * excess / N) +( __class__.C3 * value_diff /N)
 
         return result
@@ -224,11 +225,11 @@ class NodeNetwork():
         nodeD = c.nodeDestiantion
 
         newposX = (nodeS.positionX+nodeD.positionX) /2
-        newposY = (nodeS.positionX+nodeD.positionX) /2
+        newposY = (nodeS.positionY+nodeD.positionY) /2
         newNode = Node(newposX,newposY)
 
         newConnectionA = Connection(newNode,nodeD,c.value,c.enabel)
-        newConnectionB = Connection(nodeD,newNode,1)
+        newConnectionB = Connection(nodeS,newNode,__class__.GETRandomValue()) # val par défault : 1
 
         c.enabel = False
         self.nodes.append(newNode)
@@ -265,8 +266,8 @@ class NodeNetwork():
         
         ##connection
         for con in self.connections:
-
-            lienConnection[con.nodeSource.innovationNumber][1].append(con)
+            if con.enabel:
+                lienConnection[con.nodeSource.innovationNumber][1].append(con)
 
                 
         ##

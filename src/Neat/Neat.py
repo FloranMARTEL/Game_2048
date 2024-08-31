@@ -32,10 +32,19 @@ class Neat():
     def clearAllSpecies(self):
         for species in self.listOfspecies:
             species.clear()
+    
+    def killSpeciesEmty(self):
+        lastindex = len(self.listOfspecies)-1 
+        for index in range(len(self.listOfspecies)):
+            endindex = lastindex-index
+            if len(self.listOfspecies[endindex].individus) == 0:
+                del self.listOfspecies[endindex]
 
     def classificationOfSpecies(self):
-
+        print("clear")
         self.clearAllSpecies()
+        print("endClear")
+        print(len(self.listOfspecies))
 
         for individu in self.listOfPopulation:
 
@@ -51,6 +60,11 @@ class Neat():
             
             if not findSpecies:
                 self.listOfspecies.append(Species(individu))
+        
+        self.killSpeciesEmty()
+        print("kill")
+        
+
 
 
 
@@ -118,8 +132,6 @@ class Neat():
                 index += 1
     
     def reproduction(self):
-
-        
 
         nbNouveauxEnfants = self.nbpopulation - len(self.listOfPopulation)
 

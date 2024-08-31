@@ -41,4 +41,11 @@ class Connection():
             return False
 
         return True
+    
+    def __str__(self):
+        return f"HashCode : [{self.HashCode()}]; value : {self.value}; enabel : {self.enabel}"
+    
+    
+    def __repr__(self) -> str:
+        return self.__str__()
 

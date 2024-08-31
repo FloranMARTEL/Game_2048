@@ -23,3 +23,10 @@ class Node():
             return False
         
         return True
+    
+    def __str__(self):
+        return f"innovationNumber : [{self.innovationNumber}]; x : {self.positionX}; y : {self.positionY}"
+    
+    
+    def __repr__(self) -> str:
+        return self.__str__()

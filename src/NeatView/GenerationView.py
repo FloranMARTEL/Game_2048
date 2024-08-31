@@ -49,7 +49,7 @@ class GenerationView(Frame):
 
         population : list[IndividuView] = IndividuControleur.GetindividuView(self.center,generationNumber)
 
-        nbIndividuLigne = 20#ceil(sqrt(len(population)))
+        nbIndividuLigne = ceil(sqrt(len(population)))
         for index,indi in enumerate(population):
             indi.grid(row=index//nbIndividuLigne,column=index%nbIndividuLigne,padx=2,pady=2)
 
