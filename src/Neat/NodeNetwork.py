@@ -10,11 +10,11 @@ class NodeNetwork():
 
     MAXVALUEMUTATION = 100
 
-    ProbabilityTONewConnection = 0.5
-    ProbabilityTOEnbeledConnection = 0.3
+    ProbabilityTONewConnection = 0.3
+    ProbabilityTOEnbeledConnection = 0.2
     ProbabilityTOValueOfConnection = 0.5
     ProbabilityTOValueOfConnectionRandomly = 0.1
-    ProbabilityTONewNode = 0.2
+    ProbabilityTONewNode = 0.1
 
     def __init__(self, nodes : list[Node], connections : list[Connection]) -> None:
         self.nodes : list[Node] = nodes
@@ -93,7 +93,6 @@ class NodeNetwork():
         if N < 20:
             N=1
 
-        # print(__class__.C1 * disjoint / N,";",__class__.C2 * excess / N,";",__class__.C3 * value_diff /N)
         result = (__class__.C1 * disjoint / N) + (__class__.C2 * excess / N) +( __class__.C3 * value_diff /N)
 
         return result
@@ -101,17 +100,24 @@ class NodeNetwork():
 
     #Nn1 is the nodeNetwork with the best score
     @staticmethod
-    def Crossover(Nn1, Nn2):
-        Nn1 : NodeNetwork
-        Nn2 : NodeNetwork
+    def Crossover(Nn1 : "NodeNetwork", Nn2 : "NodeNetwork"):
 
-        ## Nn1 à le meilleur score
-
-        connectionNn1 = sorted(Nn1.connections,key=lambda connection: connection.innovationNumber)
-        connectionNn2 = sorted(Nn2.connections,key=lambda connection: connection.innovationNumber)
+        #print("1")
 
         newConnections :list[Connection]= []
         newNodes : list[Node] = []
+
+        #garder les node d'entrer et de sortie
+        for n in Nn1.nodes:
+            n : Node
+            if n.positionX == 0 or n.positionX == 1:
+                newNodes.append(n)
+
+        #print("2")
+        ## Nn1 à le meilleur score
+        connectionNn1 = sorted(Nn1.connections,key=lambda connection: connection.innovationNumber)
+        connectionNn2 = sorted(Nn2.connections,key=lambda connection: connection.innovationNumber)
+
 
         index1 : int = 0
         index2 : int = 0
@@ -122,9 +128,9 @@ class NodeNetwork():
             if con1.innovationNumber == con2.innovationNumber:
                 
                 if random() > 0.5:
-                    newConnections.append(con1)
+                    __class__.__AddConnection(con1,newConnections,newNodes)
                 else:
-                    newConnections.append(con2)
+                    __class__.__AddConnection(con2,newConnections,newNodes)
                 
                 index1 += 1
                 index2 += 1
@@ -132,26 +138,30 @@ class NodeNetwork():
             
             elif con1.innovationNumber < con2.innovationNumber:
                 ##prend les inovation disjointe
-                newConnections.append(con1)
+                __class__.__AddConnection(con1,newConnections,newNodes)
                 index1 += 1
             else:
-                newConnections.append(con2)
+                __class__.__AddConnection(con2,newConnections,newNodes)
                 index2 += 1
 
-        #garder les node d'entrer et de sortie
-        for n in Nn1.nodes:
-            n : Node
-            if n.positionX == 0 or n.positionX == 1:
-                newNodes.append(n)
+        #print("3")
 
-        for con in newConnections:
-            if con.nodeSource not in newNodes:
-                newNodes.append(con.nodeSource)
-            
-            if con.nodeDestiantion not in newNodes:
-                newNodes.append(con.nodeDestiantion)
+
+        #print("4")
         
         return NodeNetwork(newNodes,newConnections)
+    
+    @staticmethod
+    def __AddConnection(newConnection : Connection,listConnection : list[Connection],listNode : list[Node]):
+
+        listConnection.append(newConnection)
+        if newConnection.nodeSource not in listNode:
+            listNode.append(newConnection.nodeSource)
+        
+        if newConnection.nodeDestiantion not in listNode:
+            listNode.append(newConnection.nodeDestiantion)
+
+
 
 
     def copy(self):

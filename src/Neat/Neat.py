@@ -41,10 +41,8 @@ class Neat():
                 del self.listOfspecies[endindex]
 
     def classificationOfSpecies(self):
-        print("clear")
         self.clearAllSpecies()
-        print("endClear")
-        print(len(self.listOfspecies))
+        print("NB espèce : ", len(self.listOfspecies))
 
         for individu in self.listOfPopulation:
 
@@ -145,7 +143,7 @@ class Neat():
 
         for s in listOfspeciesSorted:
             nbEnfant = (s.scoreMoyen()/total)*nbNouveauxEnfants
-            if s != listOfspeciesSorted[-1]:
+            if s != listOfspeciesSorted[-1] :#or len(self.listOfPopulation) == self.nbpopulation:
                 nbEnfant = ceil(nbEnfant)
             else:
                 nbEnfant = floor(nbEnfant)

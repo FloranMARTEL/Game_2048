@@ -178,7 +178,7 @@ class IndividuWindow(Toplevel):
 
                     color = f"#{format(redcolor, '02x')}00{format(bluecolor, '02x')}"
 
-                idconnection = self.canvaNodeNetwork.create_line(sx,sy,dx,dy, width=2, fill=color)
+                idconnection = self.canvaNodeNetwork.create_line(sx,sy,dx,dy, width=1, fill=color)
 
                 #bind connetion
                 connectionInfo = ConnectionInfoView(self,connection["num"],connection["value"],connection["enabel"])

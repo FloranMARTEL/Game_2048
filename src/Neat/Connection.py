@@ -25,7 +25,7 @@ class Connection():
 
 
     def HashCode(self):
-        return self.nodeSource.innovationNumber + float("0."+(str(self.nodeDestiantion.innovationNumber)))#float("0."+(reversed(str(self.nodeDestiantion.innovationNumber))))
+        return float(str(self.nodeSource.innovationNumber) + "0."+(str(self.nodeDestiantion.innovationNumber))[::-1])
 
     def changeValue(self,value: float):
         self.value = value
