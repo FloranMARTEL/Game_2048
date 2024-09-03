@@ -44,7 +44,7 @@ class IndividuWindow(Toplevel):
     
     def updateGameStatus(self,action : str,score : int, gameOver):
 
-        self.labelAction.config(text="Action : "+action)
+        self.labelAction.config(text="Action : "+str(action))
         self.labelScore.config(text="Score : "+str(score))
         self.labelGameOver.config(text="GameOver : "+str(gameOver))
 

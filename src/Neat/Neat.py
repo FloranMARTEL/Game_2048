@@ -85,23 +85,7 @@ class Neat():
                 input : list[int]= curentgame.getinput()
                 resultat : str = individu.Execute(input)
                 
-                idmax = list(resultat.keys())[0]
-                for id in resultat:
-                    if resultat[id] > resultat[idmax]:
-                        idmax = id
-                
-                dirrection = ""
-                match idmax:
-                    case 17:
-                        dirrection = "Top"
-                    case 18:
-                        dirrection = "Down"
-                    case 19:
-                        dirrection = "Left"
-                    case 20:
-                        dirrection = "Right"
-                
-                gameover = curentgame.playAction(dirrection)
+                gameover = curentgame.playAction(resultat)
                 
             individu.score = curentgame.getscore()
 

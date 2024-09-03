@@ -10,5 +10,5 @@ class NeatGame:
     def getinput(self):
         pass
 
-    def playAction(self,action):
+    def playAction(self,action) -> (bool,int):
         pass

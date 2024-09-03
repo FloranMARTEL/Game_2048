@@ -15,25 +15,9 @@ class GameControleur():
         data = self.game.getinput()
         result = self.individu.Execute(data)
 
-        idmax = list(result.keys())[0]
-        for id in result:
-            if result[id] > result[idmax]:
-                idmax = id
-        
-        direction = ""
-        match idmax:
-            case 17:
-                direction = "Top"
-            case 18:
-                direction = "Down"
-            case 19:
-                direction = "Left"
-            case 20:
-                direction = "Right"
-
-        gameOver = self.game.playAction(direction)
+        gameOver = self.game.playAction(result)
         self.individuWindow.gameview.updateGrid(self.game.map)
-        self.individuWindow.updateGameStatus(direction,self.game.getscore(),gameOver)
+        self.individuWindow.updateGameStatus(result,self.game.getscore(),gameOver)
 
     def restart(self,event):
 

@@ -213,8 +213,45 @@ class Game(NeatGame):
     
         return self.checkGameOver() or not thereIsModification
         
-    def playAction(self, action):
-        return self.doTurn(action)
+    def playAction(self, action: dict):
+        
+
+        ordreAction = []
+
+        #idmax = list(action.keys())[0]
+        for key in action:
+
+            indexset = 0
+            for index,element in enumerate(ordreAction):
+                if element["value"] < action[key]:
+                    indexset = index
+                    break
+                indexset += 1
+            
+            ordreAction.insert(indexset,{"output" : key, "value" :action[key]})
+            
+        direction = ""
+        print(ordreAction)
+        
+        for theaction in ordreAction:
+            
+            direction = ""
+            match theaction["output"]:
+                case 17:
+                    direction = "Top"
+                case 18:
+                    direction = "Down"
+                case 19:
+                    direction = "Left"
+                case 20:
+                    direction = "Right"
+
+            _,modif = self.fussion(deepcopy(self.map),direction)
+
+            if modif == True:
+                break
+
+        return self.doTurn(direction), theaction["output"]
     
 
     def __switchNoneToZero(self,valeur):
