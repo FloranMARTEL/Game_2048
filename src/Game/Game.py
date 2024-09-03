@@ -231,7 +231,6 @@ class Game(NeatGame):
             ordreAction.insert(indexset,{"output" : key, "value" :action[key]})
             
         direction = ""
-        print(ordreAction)
         
         for theaction in ordreAction:
             

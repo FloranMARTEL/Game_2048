@@ -85,7 +85,7 @@ class Neat():
                 input : list[int]= curentgame.getinput()
                 resultat : str = individu.Execute(input)
                 
-                gameover = curentgame.playAction(resultat)
+                gameover,_ = curentgame.playAction(resultat)
                 
             individu.score = curentgame.getscore()
 
