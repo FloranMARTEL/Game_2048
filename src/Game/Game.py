@@ -1,13 +1,13 @@
 
-from random import randint,seed
+#from random import randint,seed
 from copy import deepcopy
 
 from Neat import NeatGame
-
-
+import numpy as np
 class Game(NeatGame):
 
     def __init__(self) -> None:
+        np.random.seed(50)
         self.status = "run"
         self.map = [ [None for j in range(4)] for i in range(4)]
         self.longeurCoterMap = len(self.map)
@@ -151,13 +151,13 @@ class Game(NeatGame):
         
          
         #place le nouveau nombre
-        numcase = randint(1,nbNone)
+        numcase = np.random.randint(1,high=nbNone+1)
         for x in range(self.longeurCoterMap):
             for y in range(self.longeurCoterMap):
                 if self.map[y][x] == None:
                     numcase -= 1
                     if numcase == 0:
-                        if randint(0,10) < 1:
+                        if np.random.randint(0,high=10+1) < 1:
                             self.map[y][x] = 4
                         else:
                             self.map[y][x] = 2
@@ -265,19 +265,3 @@ class Game(NeatGame):
            
 
 
-#test
-if __name__ == "__main__":
-
-    g = Game()
-    g.map = [ [None for j in range(4)] for i in range(4)]
-    g.map[1][3] = 2
-    g.map[0][3] = 4
-    g.map[0][2] = 2
-    g.map[0][1] = 4
-    g.map[2][0] = 2
-    g.showMap()
-    while True:
-        entre = input("choisie l'action\n")
-        g.doTurn(entre)
-        g.showMap()
-    

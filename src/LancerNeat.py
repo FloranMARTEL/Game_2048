@@ -1,7 +1,7 @@
 from Neat import Neat
 from Neat import DAOJson
 from Game import Game 
-nbpopulation = 20
+nbpopulation = 100
 n = Neat(16,4,nbpopulation,Game)
 
 n.CreateEmtyGeneration()
