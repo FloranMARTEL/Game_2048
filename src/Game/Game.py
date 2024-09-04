@@ -191,7 +191,7 @@ class Game(NeatGame):
 
             dirrection = ("Top","Down","Left","Right")
             for d in dirrection:
-                _,modif = self.fussion(deepcopy(self.map),d)
+                _,modif = self.fussion(self.copyMap(),d)
                 if modif == True:
                     return False
             
@@ -207,7 +207,6 @@ class Game(NeatGame):
         self.map,thereIsModification = self.fussion(self.map, action)
         
         if thereIsModification:
-            #amap = deepcopy(self.map)
             self.newNumberSpawne()
 
     
@@ -245,13 +244,24 @@ class Game(NeatGame):
                 case 20:
                     direction = "Right"
 
-            _,modif = self.fussion(deepcopy(self.map),direction)
+            _,modif = self.fussion(self.copyMap(),direction)
 
             if modif == True:
                 break
 
         return self.doTurn(direction), theaction["output"]
     
+    def copyMap(self):
+
+        newmap = [[None]*len(ligne) for ligne in self.map]
+        
+        longeurCoterMap = len(self.map)
+        for x in range(longeurCoterMap):
+            for y in range(longeurCoterMap):
+                newmap[x][y] = self.map[x][y]
+
+        return newmap
+
 
     def __switchNoneToZero(self,valeur):
         if (valeur==None) : return 0
@@ -263,5 +273,4 @@ class Game(NeatGame):
     
 
            
-
 
