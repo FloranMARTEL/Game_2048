@@ -1,0 +1,2 @@
+python -m cProfile -o test.prof .\src\LancerNeat.py;
+snakeviz .\test.prof;
