@@ -1,6 +1,5 @@
 from Neat import *
 
-from copy import deepcopy
 import random
 from math import ceil,floor
 
@@ -59,16 +58,7 @@ class Neat():
             if not findSpecies:
                 self.listOfspecies.append(Species(individu))
         
-        self.killSpeciesEmty()
-        print("kill")
-        
-
-
-
-
-
-
-    
+        self.killSpeciesEmty()        
 
 
     def PopulationPlay(self):
@@ -79,11 +69,13 @@ class Neat():
             curentgame : NeatGame = self.Game()
             individu.score = None #facultatife
 
-
+            couche, connection = individu.CreateCouchesAndConnections()
             gameover = False
+            
             while gameover == False:
                 input : list[int]= curentgame.getinput()
-                resultat : str = individu.Execute(input)
+                copyconnection = self.__deepcopydict(connection)
+                resultat : str = individu.Execute(input, couche, copyconnection)
                 
                 gameover,_ = curentgame.playAction(resultat)
                 
@@ -91,7 +83,24 @@ class Neat():
 
 
         return self.listOfPopulation
+
+    def __deepcopydict(self,dictToCopy):
+        newdict = {}
+        
+        for key in dictToCopy:
+            newdict[key] = [dictToCopy[key][0],dictToCopy[key][1]]
+        
+        return newdict
+
+    # def __deepcopylist(self,listToCopy):
+    #     newlist = [None]*len(listToCopy)
+        
+    #     for index in range(len(listToCopy)):
+    #         newlist[index] = listToCopy[index]
+
+    #     return newlist
     
+
     def kill(self,pourcentage = 0.2):
 
         for species in self.listOfspecies:

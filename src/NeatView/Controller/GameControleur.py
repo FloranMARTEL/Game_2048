@@ -13,7 +13,9 @@ class GameControleur():
     def nextAction(self,event):
 
         data = self.game.getinput()
-        result = self.individu.Execute(data)
+
+        couche, connection = self.individu.CreateCouchesAndConnections()
+        result = self.individu.Execute(data,couche, connection)
 
         gameOver = self.game.playAction(result)
         self.individuWindow.gameview.updateGrid(self.game.map)

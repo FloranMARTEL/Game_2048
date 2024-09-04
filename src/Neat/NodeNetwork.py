@@ -246,9 +246,7 @@ class NodeNetwork():
         self.connections.append(newConnectionA)
         self.connections.append(newConnectionB)
 
-
-    def Execute(self,inputs):
-
+    def CreateCouchesAndConnections(self):
         ##liste des chouche
         couches : list[list[Node]] = []
         lienConnection : dict[int,(int,list[Connection])]= {}
@@ -272,6 +270,7 @@ class NodeNetwork():
                 couches.insert(pos,[node])
             elif trouver == False and aumillieux == False:
                 couches.append([node])
+        
                 
         
         ##connection
@@ -279,16 +278,22 @@ class NodeNetwork():
             if con.enabel:
                 lienConnection[con.nodeSource.innovationNumber][1].append(con)
 
-                
-        ##
+        return (couches,lienConnection)
+        
+
+
+
+    def Execute(self,inputs,couches  : list[list[Node]] ,lienConnection : dict[int,(int,list[Connection])]):
+
+        ## init input
         for i in range(len(couches[0])):
             lienConnection[couches[0][i].innovationNumber][0] = inputs[i]
-
-        for couhe in couches:
-            for i in range(len(couhe)):
-                vv = lienConnection[couhe[i].innovationNumber][0]
-                for j in range(len(lienConnection[couhe[i].innovationNumber][1])):
-                    lienConnection[lienConnection[couhe[i].innovationNumber][1][j].nodeDestiantion.innovationNumber][0] += lienConnection[couhe[i].innovationNumber][1][j].value * vv
+        # execute
+        for couche in couches:
+            for i in range(len(couche)):
+                vv = lienConnection[couche[i].innovationNumber][0]
+                for j in range(len(lienConnection[couche[i].innovationNumber][1])):
+                    lienConnection[lienConnection[couche[i].innovationNumber][1][j].nodeDestiantion.innovationNumber][0] += lienConnection[couche[i].innovationNumber][1][j].value * vv
 
         listoutput = {}
         for nn in couches[-1]:

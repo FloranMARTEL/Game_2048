@@ -23,9 +23,11 @@ class Individual:
     def mutation(self):
         self.nodeNetwork.mutation()
 
+    def CreateCouchesAndConnections(self):
+        return self.nodeNetwork.CreateCouchesAndConnections()
 
-    def Execute(self,inputs):
-        return self.nodeNetwork.Execute(inputs)
+    def Execute(self,inputs,couches  : list[list[Node]] ,lienConnection : dict[int,(int,list[Connection])]):
+        return self.nodeNetwork.Execute(inputs,couches,lienConnection)
     
     def __str__(self):
         return f"individu [{self.numindividu}] :{'{'} score = {self.score} {'}'}"

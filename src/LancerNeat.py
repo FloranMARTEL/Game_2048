@@ -10,25 +10,23 @@ n.CreateEmtyGeneration()
 # for i in range(10):
 #     DAOJson.Delete(i)
 
-for i in range(1000):
+for i in range(200):
     print(f"----------------{i}-------------")
-    print("a")
+    #print("a")
     n.classificationOfSpecies()
-    print("b")
+    #print("b")
 
-    #print(n.listOfspecies)
     r = n.PopulationPlay()
-    print("c")
+    #print("c")
 
-    #print(sorted(r,key=lambda i:i.score))
     DAOJson.Creat(i,r)
-    print("d")
+    #print("d")
 
     n.kill()
-    print("e")
+    #print("e")
 
     n.reproduction()
-    print("f")
+    #print("f")
 
     n.mutation()
-    print("g")
+    #print("g")

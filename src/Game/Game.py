@@ -1,7 +1,3 @@
-
-#from random import randint,seed
-from copy import deepcopy
-
 from Neat import NeatGame
 import numpy as np
 class Game(NeatGame):

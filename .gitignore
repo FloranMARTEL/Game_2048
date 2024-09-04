@@ -6,3 +6,5 @@ src/Neat/data
 src/Neat/data copy
 
 test.py
+
+*.prof
