@@ -11,7 +11,7 @@ n.CreateEmtyGeneration()
 #     DAOJson.Delete(i)
 
 for i in range(200):
-    print(f"----------------{i}-------------")
+    print(f"---------------{i}--------------")
     #print("a")
     n.classificationOfSpecies()
     #print("b")
